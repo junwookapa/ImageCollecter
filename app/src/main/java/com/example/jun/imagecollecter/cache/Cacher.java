@@ -1,7 +1,14 @@
 package com.example.jun.imagecollecter.cache;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+
+import com.example.jun.imagecollecter.Common;
+import com.example.jun.imagecollecter.parallelio.ParallelIOUtil;
+import com.example.jun.imagecollecter.parallelio.ThreadPool;
+
+import java.util.Date;
 
 
 /**
@@ -35,9 +42,15 @@ public class Cacher {
         return bitmap;
     }
 
-    public void cache(String key, Bitmap bitmap){
+    public void cache(final String key, final Bitmap bitmap){
         mLruMemoryCache.cache(key, bitmap);
-        mLruDiskCache.cache(key, bitmap);
+        ThreadPool.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                mLruDiskCache.cache(key, bitmap);
+            }
+        });
+
     }
 
     public boolean isExist(String key){

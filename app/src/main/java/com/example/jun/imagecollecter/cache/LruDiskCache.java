@@ -1,9 +1,15 @@
 package com.example.jun.imagecollecter.cache;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,6 +30,8 @@ class LruDiskCache {
         MAX_CACHE_KB_SIZE = kbyte;
         try {
             File[] cachedFiles = new File(filePath).listFiles();
+            Arrays.sort(cachedFiles, new FileDateAscCompare());
+
             for (File file : cachedFiles) {
                 mLruMap.put(file.getName(), file);
                 mCurrentSize += file.length() / 1024; // kbyte
@@ -79,5 +87,14 @@ class LruDiskCache {
             mLruMap.remove(key);
             mCurrentSize -= size;
         }
+    }
+
+    static class FileDateAscCompare implements Comparator<File> {
+
+        @Override
+        public int compare(File arg0, File arg1) {
+            return (int)(arg0.lastModified() - arg1.lastModified());
+        }
+
     }
 }
