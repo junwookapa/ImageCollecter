@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ImageCollecter</string>
+    <string name="error_msg">Fail to init: %s</string>
+    <string name="image_element_nodata">No data</string>
+</resources>

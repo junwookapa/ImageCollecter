@@ -1,0 +1,4 @@
+<resources>
+    <string name="error_msg">초기화 실패 : %s</string>
+    <string name="image_element_nodata">No data</string>
+</resources>
